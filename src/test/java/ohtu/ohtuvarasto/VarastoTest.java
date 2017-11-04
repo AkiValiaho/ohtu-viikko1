@@ -1,14 +1,9 @@
 package ohtu.ohtuvarasto;
 
-import org.junit.*;
-import static org.junit.Assert.*;
-
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
 
 public class VarastoTest {
 
@@ -18,6 +13,88 @@ public class VarastoTest {
     @Before
     public void setUp() {
         varasto = new Varasto(10);
+    }
+
+
+    @Test
+    public void toString_palauttaaOikein() {
+        varasto = new Varasto(1,1);
+        String s = varasto.toString();
+        assertEquals(s, "saldo = 1.0, vielä tilaa 0.0");
+    }
+
+    @Test
+    public void otaKaikkiMahdollinenVarastosta() {
+        varasto = new Varasto(1, 1);
+        double v = varasto.otaVarastosta(1.5);
+        assertEquals(1, v, 0);
+    }
+
+    @Test
+    public void otaVarastostaNegatiivinen() {
+        varasto = new Varasto(1, 1);
+        varasto.otaVarastosta(-1);
+        assertEquals(varasto.getSaldo(), 1, 0);
+    }
+
+    @Test
+    public void lisaaVarastoTayteen() {
+        varasto = new Varasto(1, 0);
+        varasto.lisaaVarastoon(1.5);
+        assertEquals(varasto.paljonkoMahtuu(), 0, 0);
+    }
+
+
+    @Test
+    public void lisaaVarastoon_maaraAlleNollan_return() {
+        varasto.lisaaVarastoon(-1);
+        assertEquals(0, varasto.getSaldo(), 0);
+    }
+
+    @Test
+    public void alkusaldoYliTilavuuden() {
+        varasto =new Varasto(1, 1.5);
+        assertEquals(1, varasto.getSaldo(), 0);
+    }
+
+    @Test
+    public void alkusaldoSamaKuinTilavuus() {
+        varasto = new Varasto(1, 1);
+        assertEquals(1, varasto.getSaldo(), 0);
+    }
+
+    @Test
+    public void alkusaldoPienempiKuinNolla() {
+        varasto = new Varasto(0, -1);
+        assertEquals(0, varasto.getSaldo(), 0);
+    }
+
+    @Test
+    public void volumeLessThanOneOtherConstructor() {
+        varasto = new Varasto(0, 0);
+        //Tilavuuden pitäisi olla 0
+        assertEquals(0, varasto.getTilavuus(), 0);
+    }
+
+    @Test
+    public void volumeMoreThanOneOtherConstructor() {
+        varasto = new Varasto(1.1, 0);
+        //Tilavuuden pitäisi olla 1.1
+        assertEquals(1.1, varasto.getTilavuus(), 0);
+    }
+
+    @Test
+    public void volumeLessThanOne() {
+        varasto = new Varasto(0);
+        //Tilavuuden pitäisi olla 0
+        assertEquals(0, varasto.getTilavuus(), 0);
+    }
+
+    @Test
+    public void volumeMoreThanOne() {
+        varasto = new Varasto(1.1);
+        //Tilavuuden pitäisi olla 1.1
+        assertEquals(1.1, varasto.getTilavuus(), 0);
     }
 
     @Test
