@@ -63,6 +63,12 @@ public class StatisticsTest {
         assertNull(asdf);
     }
 
+    @Test
+    public void search_validReaderNoMatch_returnNull() {
+        assertNull(stats.search("fdsa"));
+
+    }
+
     @Before
     public void setUp() {
         // luodaan Statistics-olio joka käyttää "stubia"
